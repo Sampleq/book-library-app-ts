@@ -25,10 +25,10 @@ function BookForm() {
       };
 
       dispatch(addBook(createBookWithAllFields(book)));
-    }
 
-    setTitleText('');
-    setAuthorText('');
+      setTitleText('');
+      setAuthorText('');
+    }
   }
 
   function handleAddRandomBook() {
