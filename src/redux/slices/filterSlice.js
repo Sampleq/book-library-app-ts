@@ -33,7 +33,7 @@ const filterSlice = createSlice({
       state.onlyFavorite = !state.onlyFavorite; // возможно благодаря immer
     },
 
-    resetFilters: function (state, action) {
+    resetFilters: function () {
       return initialState;
     },
   },
@@ -51,7 +51,7 @@ export const {
   resetFilters,
 } = filterSlice.actions;
 
-// callback для useSelector() - общепринятый подход - всё описываем в одном файле, название этой функции начинается с select
+// callback-и для useSelector() - общепринятый подход - всё описываем в одном файле, название этих callback-функций начинается с select
 export function selectTitleFilter(state) {
   return state.filter.title;
   /* filter - это имя свойства при создании магазина Redux - т.е. часть Состояния
@@ -65,15 +65,19 @@ export function selectTitleFilter(state) {
                */
 }
 
-// callback для useSelector()
 export function selectAuthorFilter(state) {
   return state.filter.author;
 }
 
-// callback для useSelector()
 export function selectOnlyFavorite(state) {
   return state.filter.onlyFavorite;
 }
+
+// // если фильтров много, то может быть удобнее ипользовать общий селектор для всех:
+// export function selectFilters(state) {
+//   return state.filter;
+// }
+// // но тогда могут быть лишние ререндеры в некоторых компонентах
 
 // весь reducer для определённого слайса - slice - находится в свойстве .reducer объекта filterSlice
 export default filterSlice.reducer;

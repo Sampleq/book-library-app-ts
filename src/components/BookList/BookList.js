@@ -20,21 +20,24 @@ function BookList() {
   const authorFilter = useSelector(selectAuthorFilter);
   const onlyFavoriteFilter = useSelector(selectOnlyFavorite);
 
-  const booksFiltered = books.filter(book => {
-    const matchTitle = book.title
-      .toLowerCase()
-      .includes(titleFilter.toLowerCase());
+  const booksFiltered =
+    !titleFilter && !authorFilter && !onlyFavoriteFilter
+      ? books // to save memory when no filters
+      : books.filter(book => {
+          const matchTitle = book.title
+            .toLowerCase()
+            .includes(titleFilter.toLowerCase());
 
-    const matchAuthor = book.author
-      .toLowerCase()
-      .includes(authorFilter.toLowerCase());
+          const matchAuthor = book.author
+            .toLowerCase()
+            .includes(authorFilter.toLowerCase());
 
-    const matchOnlyFavorite = onlyFavoriteFilter
-      ? book.isFavorite === onlyFavoriteFilter
-      : true;
+          const matchOnlyFavorite = onlyFavoriteFilter
+            ? book.isFavorite // book.isFavorite === onlyFavoriteFilter
+            : true;
 
-    return matchTitle && matchAuthor && matchOnlyFavorite;
-  });
+          return matchTitle && matchAuthor && matchOnlyFavorite;
+        });
 
   function handleDeleteBook(id) {
     dispatch(deleteBook(id));
@@ -42,6 +45,27 @@ function BookList() {
 
   function handleToggleFavoriteBook(id) {
     dispatch(toggleFavoriteBook(id));
+  }
+
+  function highlightMatchedText(text, search, cssClass = 'highlight') {
+    // if (search === '') {
+    if (!search) {
+      return text;
+    }
+
+    const re = new RegExp(`(${search})`, 'ig');
+    // console.log(re); // /(the)/gi
+
+    return text.split(re).map((subStr, i) => {
+      if (subStr.toLowerCase() === search.toLowerCase()) {
+        return (
+          <span className={cssClass} key={i}>
+            {subStr}
+          </span>
+        );
+      }
+      return subStr;
+    });
   }
 
   return (
@@ -55,7 +79,12 @@ function BookList() {
           {booksFiltered.map((book, i) => (
             <li key={book.id}>
               <div className='book-info'>
-                {++i}. {book.title} by <b>{book.author}</b>
+                {/* {++i}. {book.title} by <b>{book.author}</b> */}
+                {++i}.{' '}
+                {highlightMatchedText(book.title, titleFilter, 'highlight')} by{' '}
+                <b>
+                  {highlightMatchedText(book.author, authorFilter, 'highlight')}
+                </b>
               </div>
 
               <div className='book-actions'>

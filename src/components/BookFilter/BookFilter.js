@@ -30,7 +30,7 @@ function BookFilter() {
     dispatch(toggleOnlyFavorite());
   }
 
-  function handleResetFilter() {
+  function handleResetFilters() {
     dispatch(resetFilters());
   }
 
@@ -62,7 +62,7 @@ function BookFilter() {
             onChange={handleToggleOnlyFavorite}
           />
         </div>
-        <button type='reset' onClick={handleResetFilter}>
+        <button type='reset' onClick={handleResetFilters}>
           Reset Filters
         </button>
       </div>
