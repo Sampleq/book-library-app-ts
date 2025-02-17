@@ -2,10 +2,17 @@ import { useDispatch, useSelector } from 'react-redux';
 import { MdOutlineStarOutline, MdOutlineStar } from 'react-icons/md';
 
 import './BookList.css';
+
+// import {
+//   deleteBook,
+//   toggleFavoriteBook,
+// } from '../../redux/books-OLD_WAY/actionCreators';  // OLD_WAY
 import {
+  selectBooks,
   deleteBook,
   toggleFavoriteBook,
-} from '../../redux/books-OLD_WAY/actionCreators';
+} from '../../redux/slices/booksSlice';
+
 import {
   selectTitleFilter,
   selectAuthorFilter,
@@ -13,7 +20,8 @@ import {
 } from '../../redux/slices/filterSlice';
 
 function BookList() {
-  const books = useSelector(state => state.books);
+  //   const books = useSelector(state => state.books); // OLD_WAY
+  const books = useSelector(selectBooks);
   const dispatch = useDispatch();
 
   const titleFilter = useSelector(selectTitleFilter);

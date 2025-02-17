@@ -2,7 +2,9 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import './BookForm.css';
-import { addBook } from '../../redux/books-OLD_WAY/actionCreators';
+
+// import { addBook } from '../../redux/books-OLD_WAY/actionCreators'; // OLD_WAY
+import { addBook } from '../../redux/slices/booksSlice';
 
 import createBookWithAllFields from '../../utils/createBookWithAllFields';
 import booksData from '../../data/books.json'; // при импорте json автоматически конвертируется в объект JavaScript
