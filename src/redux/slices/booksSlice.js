@@ -4,6 +4,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 import createBookWithAllFields from '../../utils/createBookWithAllFields';
+import { addError } from './errorSlice';
 
 // Асинхронное действие для получения данных - Создаем асинхронную thunk-функцию - по сути  создаём и экспортируем асинхронный action-creator
 export const fetchData = createAsyncThunk(
@@ -16,6 +17,9 @@ export const fetchData = createAsyncThunk(
       return res.data; // Возвращаем данные, которые станут значением payload объекта Action
     } catch (error) {
       console.log('catch (error) inside createAsyncThunk() callback');
+
+      //  console.log( thunkAPI.getState() ); // читаем состояние
+      thunkAPI.dispatch(addError(error.message)); // записываем ошибку в Состояние
 
       //   throw error; // можно просто пробросить ошибку далее
       return thunkAPI.rejectWithValue(error.message); // или reject и передать значение в payload
@@ -40,7 +44,10 @@ const booksSlice = createSlice({
     },
 
     deleteBook: function (state, action) {
-      return state.books.filter(book => book.id !== action.payload);
+      return {
+        ...state,
+        books: state.books.filter(book => book.id !== action.payload),
+      };
     },
 
     toggleFavoriteBook: function (state, action) {

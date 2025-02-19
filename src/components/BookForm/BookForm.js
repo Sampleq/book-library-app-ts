@@ -13,6 +13,9 @@ import {
 
 import createBookWithAllFields from '../../utils/createBookWithAllFields';
 import booksData from '../../data/books.json'; // при импорте json автоматически конвертируется в объект JavaScript
+import { addError } from '../../redux/slices/errorSlice';
+
+const API_URL = 'http://localhost:4000/random-book';
 
 function BookForm() {
   const [titleText, setTitleText] = useState('');
@@ -37,6 +40,8 @@ function BookForm() {
 
       setTitleText('');
       setAuthorText('');
+    } else {
+      dispatch(addError('Fill Author and Title'));
     }
   }
 
@@ -49,8 +54,8 @@ function BookForm() {
     dispatch(addBook(createBookWithAllFields(randomBook, 'random')));
   }
 
-  function handleAddRandomBookViaAPI() {
-    dispatch(fetchData('http://localhost:4000'));
+  function handleAddRandomBookViaAPI(url) {
+    dispatch(fetchData(url));
   }
 
   return (
@@ -86,7 +91,7 @@ function BookForm() {
 
         <button
           type='button'
-          onClick={handleAddRandomBookViaAPI}
+          onClick={() => handleAddRandomBookViaAPI(API_URL)}
           disabled={isLoadingViaAPI}
         >
           {isLoadingViaAPI ? (
@@ -95,6 +100,24 @@ function BookForm() {
             </>
           ) : (
             `Add Random Book via API`
+          )}
+        </button>
+
+        <button
+          type='button'
+          onClick={() =>
+            handleAddRandomBookViaAPI(
+              prompt('Enter API URL', 'http://localhost:4000/random-book')
+            )
+          }
+          disabled={isLoadingViaAPI}
+        >
+          {isLoadingViaAPI ? (
+            <>
+              Loading... <FaSpinner className='spinner' />
+            </>
+          ) : (
+            `Add Random Book via API (custom URL)`
           )}
         </button>
       </form>
