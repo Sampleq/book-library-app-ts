@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import './BookForm.css';
 
 // import { addBook } from '../../redux/books-OLD_WAY/actionCreators'; // OLD_WAY
-import { addBook } from '../../redux/slices/booksSlice';
+import { addBook, fetchData } from '../../redux/slices/booksSlice';
 
 import createBookWithAllFields from '../../utils/createBookWithAllFields';
 import booksData from '../../data/books.json'; // при импорте json автоматически конвертируется в объект JavaScript
@@ -26,7 +26,7 @@ function BookForm() {
         author: authorText,
       };
 
-      dispatch(addBook(createBookWithAllFields(book)));
+      dispatch(addBook(createBookWithAllFields(book, 'manual')));
 
       setTitleText('');
       setAuthorText('');
@@ -39,7 +39,11 @@ function BookForm() {
     const randomBook = booksData[randomIndex];
     // console.log(randomBook);
 
-    dispatch(addBook(createBookWithAllFields(randomBook)));
+    dispatch(addBook(createBookWithAllFields(randomBook, 'random')));
+  }
+
+  function handleAddRandomBookViaAPI() {
+    dispatch(fetchData('http://localhost:4000'));
   }
 
   return (
@@ -68,8 +72,13 @@ function BookForm() {
         >
           Add Book
         </button>
+
         <button type='button' onClick={handleAddRandomBook}>
           Add Random Book
+        </button>
+
+        <button type='button' onClick={handleAddRandomBookViaAPI}>
+          Add Random Book via API
         </button>
       </form>
     </div>

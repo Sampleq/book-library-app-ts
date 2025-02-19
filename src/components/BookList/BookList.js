@@ -92,7 +92,8 @@ function BookList() {
                 {highlightMatchedText(book.title, titleFilter, 'highlight')} by{' '}
                 <b>
                   {highlightMatchedText(book.author, authorFilter, 'highlight')}
-                </b>
+                </b>{' '}
+                ({book.source})
               </div>
 
               <div className='book-actions'>
