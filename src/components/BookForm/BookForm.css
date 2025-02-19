@@ -34,7 +34,7 @@
 
 .book-form button:disabled {
   background-color: #0056b3;
-  cursor: default;
+  cursor: not-allowed;
 }
 
 .book-form .spinner {

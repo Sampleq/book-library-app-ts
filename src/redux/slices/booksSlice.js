@@ -56,15 +56,21 @@ const booksSlice = createSlice({
   extraReducers: builder => {
     builder.addCase(fetchData.pending, (state, action) => {
       console.log('fetchData.pending');
+      state.isLoadingViaAPI = true;
     });
 
     builder.addCase(fetchData.fulfilled, (state, action) => {
+      console.log('fetchData.fulfilled');
       state.books.push(createBookWithAllFields(action.payload, 'API')); // immer
+
+      state.isLoadingViaAPI = false;
     });
 
     builder.addCase(fetchData.rejected, (state, action) => {
       console.log('fetchData.rejected');
       console.log(action);
+
+      state.isLoadingViaAPI = false;
     });
   },
 });
@@ -73,6 +79,10 @@ export const { addBook, deleteBook, toggleFavoriteBook } = booksSlice.actions;
 
 export function selectBooks(state) {
   return state.books.books;
+}
+
+export function selectIsLoadingViaAPI(state) {
+  return state.books.isLoadingViaAPI;
 }
 
 export default booksSlice.reducer;

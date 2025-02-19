@@ -1,10 +1,15 @@
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { FaSpinner } from 'react-icons/fa';
 
 import './BookForm.css';
 
 // import { addBook } from '../../redux/books-OLD_WAY/actionCreators'; // OLD_WAY
-import { addBook, fetchData } from '../../redux/slices/booksSlice';
+import {
+  addBook,
+  fetchData,
+  selectIsLoadingViaAPI,
+} from '../../redux/slices/booksSlice';
 
 import createBookWithAllFields from '../../utils/createBookWithAllFields';
 import booksData from '../../data/books.json'; // при импорте json автоматически конвертируется в объект JavaScript
@@ -14,6 +19,8 @@ function BookForm() {
   const [authorText, setAuthorText] = useState('');
 
   const dispatch = useDispatch();
+
+  const isLoadingViaAPI = useSelector(selectIsLoadingViaAPI);
 
   function handleAddBookSubmit(e) {
     e.preventDefault();
@@ -77,8 +84,18 @@ function BookForm() {
           Add Random Book
         </button>
 
-        <button type='button' onClick={handleAddRandomBookViaAPI}>
-          Add Random Book via API
+        <button
+          type='button'
+          onClick={handleAddRandomBookViaAPI}
+          disabled={isLoadingViaAPI}
+        >
+          {isLoadingViaAPI ? (
+            <>
+              Loading... <FaSpinner className='spinner' />
+            </>
+          ) : (
+            `Add Random Book via API`
+          )}
         </button>
       </form>
     </div>
