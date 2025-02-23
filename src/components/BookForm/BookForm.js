@@ -15,7 +15,9 @@ import createBookWithAllFields from '../../utils/createBookWithAllFields';
 import booksData from '../../data/books.json'; // при импорте json автоматически конвертируется в объект JavaScript
 import { addError } from '../../redux/slices/errorSlice';
 
-const API_URL = 'http://localhost:4000/random-book';
+// // for backend: http://localhost:4000/random-book (returns json of random book like {"title": "Things Fall Apart", "author": "Chinua Achebe"})
+// const API_URL = 'http://localhost:4000/random-book';
+const API_URL = 'https://dummyjson.com/comments';
 
 function BookForm() {
   const [titleText, setTitleText] = useState('');
@@ -93,6 +95,7 @@ function BookForm() {
           type='button'
           onClick={() => handleAddRandomBookViaAPI(API_URL)}
           disabled={isLoadingViaAPI}
+          style={{ minWidth: '180px' }}
         >
           {isLoadingViaAPI ? (
             <>
@@ -107,10 +110,15 @@ function BookForm() {
           type='button'
           onClick={() =>
             handleAddRandomBookViaAPI(
-              prompt('Enter API URL', 'http://localhost:4000/random-book')
+              // prompt('Enter API URL', 'http://localhost:4000/random-book')
+              prompt(
+                'Enter API URL (type incorrect to see error handling)',
+                'https://dummyjson.com/comments'
+              )
             )
           }
           disabled={isLoadingViaAPI}
+          style={{ minWidth: '270px' }}
         >
           {isLoadingViaAPI ? (
             <>

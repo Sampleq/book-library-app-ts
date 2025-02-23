@@ -11,10 +11,25 @@ export const fetchData = createAsyncThunk(
   'books/fetchData', // Префикс для типов действий
 
   async (url, thunkAPI) => {
+    // console.log(url, thunkAPI);
+
     try {
       const res = await axios.get(url);
 
-      return res.data; // Возвращаем данные, которые станут значением payload объекта Action
+      // // for backend: http://localhost:4000/random-book (returns json of random book like {"title": "Things Fall Apart", "author": "Chinua Achebe"})
+      // return res.data; // Возвращаем данные, которые станут значением payload объекта Action
+
+      // // for backend: https://dummyjson.com/comments
+      const comments = res.data.comments;
+      const randomIndex = Math.floor(Math.random() * comments.length);
+      const randomComment = comments[randomIndex];
+
+      const randomBookFromComment = {
+        author: randomComment.user.fullName,
+        title: randomComment.body,
+      };
+
+      return randomBookFromComment;
     } catch (error) {
       console.log('catch (error) inside createAsyncThunk() callback');
 
