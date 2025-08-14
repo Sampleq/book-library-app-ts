@@ -3,21 +3,17 @@ import { MdOutlineStarOutline, MdOutlineStar } from 'react-icons/md';
 
 import './BookList.css';
 
-// import {
-//   deleteBook,
-//   toggleFavoriteBook,
-// } from '../../redux/books-OLD_WAY/actionCreators';  // OLD_WAY
-import {
-  selectBooks,
-  deleteBook,
-  toggleFavoriteBook,
-} from '../../redux/slices/booksSlice';
+import { deleteBook, toggleFavoriteBook } from '../../redux/slices/booksSlice';
+
+import { selectBooks } from '../../redux/slices/booksSelectors';
 
 import {
   selectTitleFilter,
   selectAuthorFilter,
   selectOnlyFavorite,
-} from '../../redux/slices/filterSlice';
+} from '../../redux/slices/filterSelectors';
+
+import type { Book } from '../../types';
 
 function BookList() {
   //   const books = useSelector(state => state.books); // OLD_WAY
@@ -31,7 +27,7 @@ function BookList() {
   const booksFiltered =
     !titleFilter && !authorFilter && !onlyFavoriteFilter
       ? books // to save memory when no filters
-      : books.filter(book => {
+      : books.filter((book: Book) => {
           const matchTitle = book.title
             .toLowerCase()
             .includes(titleFilter.toLowerCase());
@@ -47,16 +43,19 @@ function BookList() {
           return matchTitle && matchAuthor && matchOnlyFavorite;
         });
 
-  function handleDeleteBook(id) {
+  function handleDeleteBook(id: Book['id']) {
     dispatch(deleteBook(id));
   }
 
-  function handleToggleFavoriteBook(id) {
+  function handleToggleFavoriteBook(id: Book['id']) {
     dispatch(toggleFavoriteBook(id));
   }
 
-  function highlightMatchedText(text, search, cssClass = 'highlight') {
-    // if (search === '') {
+  function highlightMatchedText(
+    text: string,
+    search: string,
+    cssClass: string = 'highlight'
+  ) {
     if (!search) {
       return text;
     }

@@ -1,19 +1,17 @@
 import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { FaSpinner } from 'react-icons/fa';
 
 import './BookForm.css';
 
 // import { addBook } from '../../redux/books-OLD_WAY/actionCreators'; // OLD_WAY
-import {
-  addBook,
-  fetchData,
-  selectIsLoadingViaAPI,
-} from '../../redux/slices/booksSlice';
+import { addBook, fetchData } from '../../redux/slices/booksSlice';
+import { selectIsLoadingViaAPI } from '../../redux/slices/booksSelectors';
 
 import createBookWithAllFields from '../../utils/createBookWithAllFields';
 import booksData from '../../data/books.json'; // при импорте json автоматически конвертируется в объект JavaScript
 import { addError } from '../../redux/slices/errorSlice';
+import { useAppDispatch } from '../../redux/redux-hook';
 
 // // for backend: http://localhost:4000/random-book (returns json of random book like {"title": "Things Fall Apart", "author": "Chinua Achebe"})
 // const API_URL = 'http://localhost:4000/random-book';
@@ -23,11 +21,11 @@ function BookForm() {
   const [titleText, setTitleText] = useState('');
   const [authorText, setAuthorText] = useState('');
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const isLoadingViaAPI = useSelector(selectIsLoadingViaAPI);
 
-  function handleAddBookSubmit(e) {
+  function handleAddBookSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     // console.log('submit: ', titleText, authorText);
 
@@ -56,7 +54,7 @@ function BookForm() {
     dispatch(addBook(createBookWithAllFields(randomBook, 'random')));
   }
 
-  function handleAddRandomBookViaAPI(url) {
+  function handleAddRandomBookViaAPI(url: string) {
     dispatch(fetchData(url));
   }
 
@@ -69,7 +67,7 @@ function BookForm() {
           type='text'
           id='title'
           value={titleText}
-          onChange={e => setTitleText(e.target.value)}
+          onChange={(e) => setTitleText(e.target.value)}
         />
 
         <label htmlFor='author'>Author</label>
@@ -77,7 +75,7 @@ function BookForm() {
           type='text'
           id='author'
           value={authorText}
-          onChange={e => setAuthorText(e.target.value)}
+          onChange={(e) => setAuthorText(e.target.value)}
         />
 
         <button
@@ -114,7 +112,7 @@ function BookForm() {
               prompt(
                 'Enter API URL (type incorrect to see error handling)',
                 'https://dummyjson.com/comments'
-              )
+              ) ?? ''
             )
           }
           disabled={isLoadingViaAPI}

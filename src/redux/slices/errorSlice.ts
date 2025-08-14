@@ -1,6 +1,7 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
+import type { ErrorState } from '../../types';
 
-const initialState = {
+const initialState: ErrorState = {
   errorMessage: '',
   timestamp: null,
 };
@@ -10,7 +11,7 @@ const errorSlice = createSlice({
   name: 'error',
 
   reducers: {
-    addError: function (state, action) {
+    addError: function (state, action: PayloadAction<string>) {
       state.errorMessage = action.payload;
       state.timestamp = Date.now();
     },
@@ -22,7 +23,5 @@ const errorSlice = createSlice({
 });
 
 export const { addError, clearError } = errorSlice.actions;
-
-export const selectError = state => state.error;
 
 export default errorSlice.reducer;

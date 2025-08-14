@@ -1,23 +1,28 @@
 /* в этом одном файле будет вся логика Reducer-а для книг */
 
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import {
+  createAsyncThunk,
+  createSlice,
+  type PayloadAction,
+} from '@reduxjs/toolkit';
+
 import axios from 'axios';
 
 import createBookWithAllFields from '../../utils/createBookWithAllFields';
 import { addError } from './errorSlice';
+import type { Book, BooksState } from '../../types';
 
 // Асинхронное действие для получения данных - Создаем асинхронную thunk-функцию - по сути  создаём и экспортируем асинхронный action-creator
-export const fetchData = createAsyncThunk(
+export const fetchData = createAsyncThunk<
+  Book,
+  string,
+  { dispatch: any; rejectValue: string } //! dispatch:
+>(
   'books/fetchData', // Префикс для типов действий
 
-  async (url, thunkAPI) => {
-    // console.log(url, thunkAPI);
-
+  async (url: string, thunkAPI) => {
     try {
       const res = await axios.get(url);
-
-      // // for backend: http://localhost:4000/random-book (returns json of random book like {"title": "Things Fall Apart", "author": "Chinua Achebe"})
-      // return res.data; // Возвращаем данные, которые станут значением payload объекта Action
 
       // // for backend: https://dummyjson.com/comments
       const comments = res.data.comments;
@@ -33,18 +38,15 @@ export const fetchData = createAsyncThunk(
     } catch (error) {
       console.log('catch (error) inside createAsyncThunk() callback');
 
-      //  console.log( thunkAPI.getState() ); // читаем состояние
-      thunkAPI.dispatch(addError(error.message)); // записываем ошибку в Состояние
+      thunkAPI.dispatch(addError((error as Error).message));
 
       //   throw error; // можно просто пробросить ошибку далее
-      return thunkAPI.rejectWithValue(error.message); // или reject и передать значение в payload
-
-      //   return thunkAPI.fulfillWithValue({ title: 'Error', author: 'err' }); // just try
+      return thunkAPI.rejectWithValue((error as Error).message); // или reject и передать значение в payload
     }
   }
 );
 
-const initialState = {
+const initialState: BooksState = {
   books: [],
   isLoadingViaAPI: false,
 };
@@ -54,18 +56,18 @@ const booksSlice = createSlice({
   name: 'books',
 
   reducers: {
-    addBook: function (state, action) {
+    addBook: function (state, action: PayloadAction<Book>) {
       state.books.push(action.payload); // immer
     },
 
-    deleteBook: function (state, action) {
+    deleteBook: function (state, action: PayloadAction<Book['id']>) {
       return {
         ...state,
         books: state.books.filter((book) => book.id !== action.payload),
       };
     },
 
-    toggleFavoriteBook: function (state, action) {
+    toggleFavoriteBook: function (state, action: PayloadAction<Book['id']>) {
       // immer
       state.books.forEach((book) => {
         if (book.id === action.payload) {
@@ -76,7 +78,7 @@ const booksSlice = createSlice({
   },
 
   extraReducers: (builder) => {
-    builder.addCase(fetchData.pending, (state, action) => {
+    builder.addCase(fetchData.pending, (state) => {
       console.log('fetchData.pending');
       state.isLoadingViaAPI = true;
     });
@@ -98,13 +100,5 @@ const booksSlice = createSlice({
 });
 
 export const { addBook, deleteBook, toggleFavoriteBook } = booksSlice.actions;
-
-export function selectBooks(state) {
-  return state.books.books;
-}
-
-export function selectIsLoadingViaAPI(state) {
-  return state.books.isLoadingViaAPI;
-}
 
 export default booksSlice.reducer;

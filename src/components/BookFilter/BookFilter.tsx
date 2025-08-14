@@ -4,11 +4,14 @@ import {
   setTitleFilter,
   setAuthorFilter,
   resetFilters,
+  toggleOnlyFavorite,
+} from '../../redux/slices/filterSlice';
+
+import {
   selectTitleFilter,
   selectAuthorFilter,
   selectOnlyFavorite,
-  toggleOnlyFavorite,
-} from '../../redux/slices/filterSlice';
+} from '../../redux/slices/filterSelectors';
 
 function BookFilter() {
   const dispatch = useDispatch();
@@ -18,15 +21,17 @@ function BookFilter() {
   const authorFilter = useSelector(selectAuthorFilter);
   const onlyFavorite = useSelector(selectOnlyFavorite);
 
-  function handleTitleFilterChange(event) {
+  function handleTitleFilterChange(event: React.ChangeEvent<HTMLInputElement>) {
     dispatch(setTitleFilter(event.target.value));
   }
 
-  function handleAuthorFilterChange(event) {
+  function handleAuthorFilterChange(
+    event: React.ChangeEvent<HTMLInputElement>
+  ) {
     dispatch(setAuthorFilter(event.target.value));
   }
 
-  function handleToggleOnlyFavorite(event) {
+  function handleToggleOnlyFavorite() {
     dispatch(toggleOnlyFavorite());
   }
 
