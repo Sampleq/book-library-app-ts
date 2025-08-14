@@ -11,12 +11,16 @@ import axios from 'axios';
 import createBookWithAllFields from '../../utils/createBookWithAllFields';
 import { addError } from './errorSlice';
 import type { Book, BooksState } from '../../types';
+import type { AppDispatch } from '../store';
 
 // Асинхронное действие для получения данных - Создаем асинхронную thunk-функцию - по сути  создаём и экспортируем асинхронный action-creator
 export const fetchData = createAsyncThunk<
   Book,
   string,
-  { dispatch: any; rejectValue: string } //! dispatch:
+  {
+    dispatch: AppDispatch; // Тип dispatch из  store
+    rejectValue: string;
+  }
 >(
   'books/fetchData', // Префикс для типов действий
 

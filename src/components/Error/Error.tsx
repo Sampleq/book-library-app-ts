@@ -6,7 +6,7 @@ import { selectError } from '../../redux/slices/errorSelectors';
 import { useEffect } from 'react';
 
 function Error() {
-  console.log('Error()');
+  // console.log('Error()');
 
   const dispatch = useDispatch();
 
