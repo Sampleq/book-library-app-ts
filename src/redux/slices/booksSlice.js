@@ -61,13 +61,13 @@ const booksSlice = createSlice({
     deleteBook: function (state, action) {
       return {
         ...state,
-        books: state.books.filter(book => book.id !== action.payload),
+        books: state.books.filter((book) => book.id !== action.payload),
       };
     },
 
     toggleFavoriteBook: function (state, action) {
       // immer
-      state.books.forEach(book => {
+      state.books.forEach((book) => {
         if (book.id === action.payload) {
           book.isFavorite = !book.isFavorite;
         }
@@ -75,7 +75,7 @@ const booksSlice = createSlice({
     },
   },
 
-  extraReducers: builder => {
+  extraReducers: (builder) => {
     builder.addCase(fetchData.pending, (state, action) => {
       console.log('fetchData.pending');
       state.isLoadingViaAPI = true;

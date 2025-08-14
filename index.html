@@ -2,29 +2,12 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Redirect to Book Library App</title>
+    <title>Book Library App; Vite + React + TS + Redux + SASS</title>
   </head>
-
   <body>
-    <script>
-      window.location.replace('./build/index.html');
-
-      // similar behavior as an HTTP redirect
-      // window.location.replace("url");
-
-      // similar behavior as clicking on a link
-      // window.location.href = "url";
-    </script>
-
-    <noscript
-      >Your browser does not support JavaScript!
-      <a href="./build/index.html">Click to redirect</a>
-    </noscript>
-
-    <button onclick="window.location.replace('./build/index.html')">
-      Click to redirect
-    </button>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
