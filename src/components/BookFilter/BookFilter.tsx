@@ -1,20 +1,22 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import './BookFilter.css';
 import {
   setTitleFilter,
   setAuthorFilter,
   resetFilters,
   toggleOnlyFavorite,
-} from '../../redux/slices/filterSlice';
+} from '@/redux/slices/filterSlice';
 
 import {
   selectTitleFilter,
   selectAuthorFilter,
   selectOnlyFavorite,
-} from '../../redux/slices/filterSelectors';
+} from '@/redux/slices/filterSelectors';
+
+import { useAppDispatch } from '@/redux/redux-hook';
 
 function BookFilter() {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const titleFilter = useSelector(selectTitleFilter);
   // console.log(titleFilter);

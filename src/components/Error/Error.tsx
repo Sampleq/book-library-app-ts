@@ -1,14 +1,15 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
 
-import { clearError } from '../../redux/slices/errorSlice';
-import { selectError } from '../../redux/slices/errorSelectors';
+import { clearError } from '@/redux/slices/errorSlice';
+import { selectError } from '@/redux/slices/errorSelectors';
 import { useEffect } from 'react';
+import { useAppDispatch } from '@/redux/redux-hook';
 
 function Error() {
   // console.log('Error()');
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const { errorMessage } = useSelector(selectError);
 

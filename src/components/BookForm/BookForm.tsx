@@ -4,18 +4,14 @@ import { FaSpinner } from 'react-icons/fa';
 
 import './BookForm.css';
 
-// import { addBook } from '../../redux/books-OLD_WAY/actionCreators'; // OLD_WAY
-import { addBook, fetchData } from '../../redux/slices/booksSlice';
-import { selectIsLoadingViaAPI } from '../../redux/slices/booksSelectors';
+import { addBook, fetchData } from '@/redux/slices/booksSlice';
+import { selectIsLoadingViaAPI } from '@/redux/slices/booksSelectors';
 
-import createBookWithAllFields from '../../utils/createBookWithAllFields';
-import booksData from '../../data/books.json'; // при импорте json автоматически конвертируется в объект JavaScript
-import { addError } from '../../redux/slices/errorSlice';
-import { useAppDispatch } from '../../redux/redux-hook';
-
-// // for backend: http://localhost:4000/random-book (returns json of random book like {"title": "Things Fall Apart", "author": "Chinua Achebe"})
-// const API_URL = 'http://localhost:4000/random-book';
-const API_URL = 'https://dummyjson.com/comments';
+import createBookWithAllFields from '@/utils/createBookWithAllFields';
+import booksData from '@/data/books.json'; // при импорте json автоматически конвертируется в объект JavaScript
+import { addError } from '@/redux/slices/errorSlice';
+import { useAppDispatch } from '@/redux/redux-hook';
+import { API_URL } from '@/config';
 
 function BookForm() {
   const [titleText, setTitleText] = useState('');
@@ -29,7 +25,6 @@ function BookForm() {
     e.preventDefault();
     // console.log('submit: ', titleText, authorText);
 
-    // dispatch action
     if (titleText && authorText) {
       const book = {
         title: titleText,
@@ -78,12 +73,7 @@ function BookForm() {
           onChange={(e) => setAuthorText(e.target.value)}
         />
 
-        <button
-          type='submit'
-          //  onClick={handleAddBookSubmit} - must process form onSubmit={..} !!
-        >
-          Add Book
-        </button>
+        <button type='submit'>Add Book</button>
 
         <button type='button' onClick={handleAddRandomBook}>
           Add Random Book

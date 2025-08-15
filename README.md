@@ -1,3 +1,5 @@
 # Book Library App
 
-## Vite + React + TS + Redux + SASS
+Add books manually, random from local JSON or random via API
+
+## Vite + React + TS + Redux

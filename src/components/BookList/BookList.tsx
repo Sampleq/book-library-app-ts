@@ -3,20 +3,19 @@ import { MdOutlineStarOutline, MdOutlineStar } from 'react-icons/md';
 
 import './BookList.css';
 
-import { deleteBook, toggleFavoriteBook } from '../../redux/slices/booksSlice';
+import { deleteBook, toggleFavoriteBook } from '@/redux/slices/booksSlice';
 
-import { selectBooks } from '../../redux/slices/booksSelectors';
+import { selectBooks } from '@/redux/slices/booksSelectors';
 
 import {
   selectTitleFilter,
   selectAuthorFilter,
   selectOnlyFavorite,
-} from '../../redux/slices/filterSelectors';
+} from '@/redux/slices/filterSelectors';
 
-import type { Book } from '../../types';
+import type { Book } from '@/types';
 
 function BookList() {
-  //   const books = useSelector(state => state.books); // OLD_WAY
   const books = useSelector(selectBooks);
   const dispatch = useDispatch();
 
@@ -36,9 +35,7 @@ function BookList() {
             .toLowerCase()
             .includes(authorFilter.toLowerCase());
 
-          const matchOnlyFavorite = onlyFavoriteFilter
-            ? book.isFavorite // book.isFavorite === onlyFavoriteFilter
-            : true;
+          const matchOnlyFavorite = onlyFavoriteFilter ? book.isFavorite : true;
 
           return matchTitle && matchAuthor && matchOnlyFavorite;
         });
