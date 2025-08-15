@@ -6,7 +6,8 @@ import path from 'path';
 export default defineConfig({
   plugins: [react()],
 
-  base: './',
+  // адрес на который будет заливаться готовый билд
+  base: 'https://sampleq.github.io/book-library-app-ts',
 
   resolve: {
     alias: {
