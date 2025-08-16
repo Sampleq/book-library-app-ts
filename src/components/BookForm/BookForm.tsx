@@ -54,7 +54,9 @@ function BookForm() {
   }
 
   function handleDeletAllBooks() {
-    dispatch(deleteAllBooks());
+    if (confirm('Are you sure want to delete all Books from the list?')) {
+      dispatch(deleteAllBooks());
+    }
   }
 
   return (
