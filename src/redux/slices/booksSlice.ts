@@ -79,6 +79,10 @@ const booksSlice = createSlice({
         }
       });
     },
+
+    deleteAllBooks: function () {
+      return initialState;
+    },
   },
 
   extraReducers: (builder) => {
@@ -103,6 +107,7 @@ const booksSlice = createSlice({
   },
 });
 
-export const { addBook, deleteBook, toggleFavoriteBook } = booksSlice.actions;
+export const { addBook, deleteBook, toggleFavoriteBook, deleteAllBooks } =
+  booksSlice.actions;
 
 export default booksSlice.reducer;

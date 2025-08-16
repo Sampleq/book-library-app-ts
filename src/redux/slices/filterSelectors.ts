@@ -1,4 +1,4 @@
-import type { RootState } from '../store';
+import type { RootState } from '@/types';
 
 export function selectTitleFilter(state: RootState) {
   return state.filter.title;

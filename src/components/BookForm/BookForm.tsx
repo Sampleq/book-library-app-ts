@@ -4,7 +4,7 @@ import { FaSpinner } from 'react-icons/fa';
 
 import './BookForm.css';
 
-import { addBook, fetchData } from '@/redux/slices/booksSlice';
+import { addBook, deleteAllBooks, fetchData } from '@/redux/slices/booksSlice';
 import { selectIsLoadingViaAPI } from '@/redux/slices/booksSelectors';
 
 import createBookWithAllFields from '@/utils/createBookWithAllFields';
@@ -53,6 +53,10 @@ function BookForm() {
     dispatch(fetchData(url));
   }
 
+  function handleDeletAllBooks() {
+    dispatch(deleteAllBooks());
+  }
+
   return (
     <div className='app-block book-form'>
       <h2>Add New Book</h2>
@@ -64,7 +68,6 @@ function BookForm() {
           value={titleText}
           onChange={(e) => setTitleText(e.target.value)}
         />
-
         <label htmlFor='author'>Author</label>
         <input
           type='text'
@@ -72,49 +75,54 @@ function BookForm() {
           value={authorText}
           onChange={(e) => setAuthorText(e.target.value)}
         />
+        <div>
+          <button type='submit'>Add Book</button>
 
-        <button type='submit'>Add Book</button>
+          <button type='button' onClick={handleAddRandomBook}>
+            Add Random Book
+          </button>
 
-        <button type='button' onClick={handleAddRandomBook}>
-          Add Random Book
-        </button>
+          <button
+            type='button'
+            onClick={() => handleAddRandomBookViaAPI(API_URL)}
+            disabled={isLoadingViaAPI}
+            style={{ minWidth: '180px' }}
+          >
+            {isLoadingViaAPI ? (
+              <>
+                Loading... <FaSpinner className='spinner' />
+              </>
+            ) : (
+              `Add Random Book via API`
+            )}
+          </button>
 
-        <button
-          type='button'
-          onClick={() => handleAddRandomBookViaAPI(API_URL)}
-          disabled={isLoadingViaAPI}
-          style={{ minWidth: '180px' }}
-        >
-          {isLoadingViaAPI ? (
-            <>
-              Loading... <FaSpinner className='spinner' />
-            </>
-          ) : (
-            `Add Random Book via API`
-          )}
-        </button>
+          <button
+            type='button'
+            onClick={() =>
+              handleAddRandomBookViaAPI(
+                // prompt('Enter API URL', 'http://localhost:4000/random-book')
+                prompt(
+                  'Enter API URL (type incorrect to see error handling)',
+                  'https://dummyjson.com/comments'
+                ) ?? ''
+              )
+            }
+            disabled={isLoadingViaAPI}
+            style={{ minWidth: '270px' }}
+          >
+            {isLoadingViaAPI ? (
+              <>
+                Loading... <FaSpinner className='spinner' />
+              </>
+            ) : (
+              `Add Random Book via API (custom URL)`
+            )}
+          </button>
+        </div>
 
-        <button
-          type='button'
-          onClick={() =>
-            handleAddRandomBookViaAPI(
-              // prompt('Enter API URL', 'http://localhost:4000/random-book')
-              prompt(
-                'Enter API URL (type incorrect to see error handling)',
-                'https://dummyjson.com/comments'
-              ) ?? ''
-            )
-          }
-          disabled={isLoadingViaAPI}
-          style={{ minWidth: '270px' }}
-        >
-          {isLoadingViaAPI ? (
-            <>
-              Loading... <FaSpinner className='spinner' />
-            </>
-          ) : (
-            `Add Random Book via API (custom URL)`
-          )}
+        <button className='delete' type='button' onClick={handleDeletAllBooks}>
+          Delete All Books
         </button>
       </form>
     </div>

@@ -37,6 +37,13 @@
   cursor: not-allowed;
 }
 
+.book-form button.delete {
+  background-color: indianred;
+}
+.book-form button.delete:hover {
+  background-color: brown;
+}
+
 .book-form .spinner {
   animation: spinner 1s infinite linear;
   margin-left: 10px;

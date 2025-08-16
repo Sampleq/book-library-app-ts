@@ -1,4 +1,4 @@
-import type { RootState } from '../store';
+import type { RootState } from '@/types';
 
 export function selectBooks(state: RootState) {
   return state.books.books;

@@ -5,6 +5,8 @@ import BookList from './components/BookList';
 import Error from './components/Error';
 
 function App() {
+  // console.log('App()');
+
   return (
     <div className='app'>
       <header className='app-header'>

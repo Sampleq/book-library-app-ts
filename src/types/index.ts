@@ -22,3 +22,9 @@ export interface ErrorState {
   errorMessage: string;
   timestamp: null | number;
 }
+
+export type RootState = {
+  books: BooksState;
+  filter: FilterState;
+  error: ErrorState;
+};
