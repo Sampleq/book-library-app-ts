@@ -14,8 +14,6 @@ export interface BooksState {
 
 export interface FilterState {
   title: string;
-  author: string;
-  onlyFavorite: boolean;
 }
 
 export interface ErrorState {
@@ -27,4 +25,10 @@ export type RootState = {
   books: BooksState;
   filter: FilterState;
   error: ErrorState;
+};
+
+export type QueryParams = {
+  title?: string;
+  author?: string;
+  onlyFavorite?: 'false' | 'true';
 };

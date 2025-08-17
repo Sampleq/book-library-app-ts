@@ -1,44 +1,51 @@
-import { useSelector } from 'react-redux';
 import './BookFilter.css';
-import {
-  setTitleFilter,
-  setAuthorFilter,
-  resetFilters,
-  toggleOnlyFavorite,
-} from '@/redux/slices/filterSlice';
 
-import {
-  selectTitleFilter,
-  selectAuthorFilter,
-  selectOnlyFavorite,
-} from '@/redux/slices/filterSelectors';
+import { useLocation, useNavigate } from 'react-router-dom';
+import type { NavigateFunction } from 'react-router-dom';
 
-import { useAppDispatch } from '@/redux/redux-hook';
+import queryString from 'query-string';
+import type { QueryParams } from '@/types';
 
 function BookFilter() {
-  const dispatch = useAppDispatch();
+  const navigate: NavigateFunction = useNavigate();
+  const location = useLocation();
 
-  const titleFilter = useSelector(selectTitleFilter);
-  // console.log(titleFilter);
-  const authorFilter = useSelector(selectAuthorFilter);
-  const onlyFavorite = useSelector(selectOnlyFavorite);
+  const parsedSearch: QueryParams = queryString.parse(location.search);
+  console.log(parsedSearch);
+
+  // const titleFilter = useSelector(selectTitleFilter);
+  const titleFilter: string = parsedSearch.title ?? '';
+
+  const authorFilter: string = parsedSearch.author ?? '';
+
+  const onlyFavorite: boolean = parsedSearch.onlyFavorite === 'true';
 
   function handleTitleFilterChange(event: React.ChangeEvent<HTMLInputElement>) {
-    dispatch(setTitleFilter(event.target.value));
+    parsedSearch.title = event.target.value;
+    const stringified = queryString.stringify(parsedSearch);
+
+    navigate(`?${stringified}`, { replace: true });
   }
 
   function handleAuthorFilterChange(
     event: React.ChangeEvent<HTMLInputElement>
   ) {
-    dispatch(setAuthorFilter(event.target.value));
+    parsedSearch.author = event.target.value;
+    const stringified = queryString.stringify(parsedSearch);
+    console.log(stringified);
+
+    navigate(`?${stringified}`, { replace: true });
   }
 
   function handleToggleOnlyFavorite() {
-    dispatch(toggleOnlyFavorite());
+    parsedSearch.onlyFavorite = onlyFavorite ? 'false' : 'true';
+    const stringified = queryString.stringify(parsedSearch);
+
+    navigate(`?${stringified}`, { replace: true });
   }
 
   function handleResetFilters() {
-    dispatch(resetFilters());
+    navigate(`.`, { replace: true });
   }
 
   return (

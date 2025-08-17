@@ -7,21 +7,20 @@ import { deleteBook, toggleFavoriteBook } from '@/redux/slices/booksSlice';
 
 import { selectBooks } from '@/redux/slices/booksSelectors';
 
-import {
-  selectTitleFilter,
-  selectAuthorFilter,
-  selectOnlyFavorite,
-} from '@/redux/slices/filterSelectors';
-
-import type { Book } from '@/types';
+import type { Book, QueryParams } from '@/types';
+import { useLocation } from 'react-router-dom';
+import queryString from 'query-string';
 
 function BookList() {
+  const location = useLocation();
+  const parsedSearch: QueryParams = queryString.parse(location.search);
+
   const books = useSelector(selectBooks);
   const dispatch = useDispatch();
 
-  const titleFilter = useSelector(selectTitleFilter);
-  const authorFilter = useSelector(selectAuthorFilter);
-  const onlyFavoriteFilter = useSelector(selectOnlyFavorite);
+  const titleFilter: string = parsedSearch.title ?? '';
+  const authorFilter: string = parsedSearch.author ?? '';
+  const onlyFavoriteFilter: boolean = parsedSearch.onlyFavorite === 'true';
 
   const booksFiltered =
     !titleFilter && !authorFilter && !onlyFavoriteFilter
